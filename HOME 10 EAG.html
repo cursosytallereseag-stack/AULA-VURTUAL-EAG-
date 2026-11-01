@@ -1,120 +1,893 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Aula Virtual EAG - Menú Principal</title>
-  <!-- La mayoría de los estilos son los mismos, solo he quitado los que ya no se necesitan -->
-  <style>
-    :root {
-      --blanco: #ffffff;
-      --gris: #f4f6f9;
-      --texto: #2c3e50;
-      --verde: #2ecc71;
-      --turquesa: #1abc9c;
-      --fucsia: #e91e63;
-      --azul: #3498db;
-      --morado: #9b59b6;
-      --naranja: #e67e22;
-      --amarillo: #f1c40f;
-      --verde-oscuro: #27ae60;
-      --rojo: #e74c3c;
-      --sidebar-width: 320px;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
-    body { background-color: var(--gris); color: var(--texto); display: flex; min-height: 100vh; }
-    .sidebar {
-      width: var(--sidebar-width);
-      background: linear-gradient(135deg, #2c3e50, #1a2530);
-      color: var(--blanco);
-      padding: 20px;
-      height: 100vh;
-      position: fixed;
-      box-shadow: 5px 0 25px rgba(0,0,0,0.2);
-      z-index: 100;
-      overflow-y: auto;
-    }
-    .sidebar .logo { margin-bottom: 30px; text-align: center; padding-top: 20px; }
-    .sidebar .logo h2 {
-      font-size: 1.8rem;
-      background: linear-gradient(90deg, var(--verde), var(--turquesa), var(--fucsia));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .sidebar .logo p { font-size: 0.95rem; opacity: 0.8; }
-    .menu { display: flex; flex-direction: column; gap: 8px; }
-    .nav-btn {
-      padding: 12px 18px;
-      border-radius: 10px;
-      background: linear-gradient(to right, var(--btn-color), #bdc3c7);
-      color: white;
-      font-weight: 600;
-      text-align: left;
-      transition: all 0.3s ease;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-      font-size: 0.9rem;
-      text-decoration: none; /* Añadido para quitar el subrayado de los links */
-      display: block; /* Para que el link ocupe todo el espacio del botón */
-    }
-    .nav-btn:hover {
-      transform: translateY(-3px) scale(1.01);
-      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-    }
-    .main-content {
-      flex: 1;
-      margin-left: var(--sidebar-width);
-      padding: 40px;
-      background-color: var(--blanco);
-    }
-    .header { text-align: center; }
-    .header h1 { font-size: 2.3rem; }
-    .header p { color: #7f8c8d; font-size: 1.15rem; }
-    footer { margin-top: 60px; text-align: center; color: #95a5a6; padding-top: 25px; border-top: 1px solid #ddd; }
-    
-    @media screen and (max-width: 768px) {
-      .sidebar { transform: translateX(-100%); }
-      .main-content { margin-left: 0; }
-      /* Aquí irían los demás estilos responsivos si se necesitara un menú hamburguesa */
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1020">
+<title>EAG | Aula Virtual · Centro de Evaluaciones ECOEMS 2026</title>
+
+<!-- ============================================================================
+     OPEN GRAPH / TWITTER CARD — para que la liga se vea con logo y título
+     al compartirse en WhatsApp o grupos de estudio.
+     ⚠️ Sustituye og:url por tu dirección real de GitHub Pages cuando la tengas.
+     ============================================================================ -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://TU-USUARIO.github.io/TU-REPO/">
+<meta property="og:site_name" content="Cursos y Talleres EAG">
+<meta property="og:title" content="Aula Virtual · Centro de Evaluaciones ECOEMS 2026">
+<meta property="og:description" content="Entrena por materia, detecta tus errores y avanza con EAG hacia el simulador oficial ECOEMS 2026. 12 materias, banco de reactivos y guía con IA (Bútech).">
+<meta property="og:image" content="https://i.ibb.co/1YTdV2Qx/eag-2022-removebg-preview.png">
+<meta property="og:locale" content="es_MX">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Aula Virtual · Centro de Evaluaciones ECOEMS 2026">
+<meta name="twitter:description" content="Entrena por materia, detecta tus errores y avanza con EAG hacia el simulador oficial ECOEMS 2026.">
+<meta name="twitter:image" content="https://i.ibb.co/1YTdV2Qx/eag-2022-removebg-preview.png">
+
+<!--
+  AULA EAG — solo materias.
+  12 materias × 15 tests de entrenamiento (3 niveles de 5), con registro de avance local.
+  Acceso protegido por código y contraseña (ver "ACCESO" en el script).
+  Bútech: guía de dudas con puente a NotebookLM / Gemini / Claude.
+-->
+<style>
+:root{
+  --bg:#f5f7fb;--surface:#fff;--surface2:#eef2f8;--text:#172033;--muted:#657089;
+  --primary:#6c5ce7;--primary2:#8b7cf6;--accent:#16c6a3;--warning:#ffb84d;
+  --danger:#ff647c;--border:rgba(30,42,70,.12);--shadow:0 18px 50px rgba(25,35,65,.10);
+  --verde:#1fb779;--verde-bg:rgba(31,183,121,.12);
+  --amarillo:#e0a326;--amarillo-bg:rgba(224,163,38,.14);
+  --rojo:#e5566e;--rojo-bg:rgba(229,86,110,.12);
+  --morado:#8b5cf6;--morado-bg:rgba(139,92,246,.14);
+}
+[data-theme="dark"]{
+  --bg:#080d18;--surface:#101827;--surface2:#172235;--text:#f4f7ff;--muted:#9aa8c0;
+  --primary:#8b7cf6;--primary2:#6c5ce7;--accent:#25d9b3;--warning:#ffc35c;
+  --danger:#ff7188;--border:rgba(255,255,255,.09);--shadow:0 20px 60px rgba(0,0,0,.35);
+  --verde:#2fd992;--verde-bg:rgba(47,217,146,.14);
+  --amarillo:#ffc857;--amarillo-bg:rgba(255,200,87,.14);
+  --rojo:#ff7c92;--rojo-bg:rgba(255,124,146,.14);
+  --morado:#a78bfa;--morado-bg:rgba(167,139,250,.16);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);transition:.25s}
+button,a,select{font:inherit}
+a{text-decoration:none;color:inherit;cursor:pointer}
+.container{width:min(1180px,92%);margin:auto}
+.topbar{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
+.nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;font-weight:900}
+.logo{width:44px;height:44px;object-fit:contain;border-radius:12px;background:#fff;padding:4px}
+.brand small{display:block;color:var(--muted);font-weight:600;font-size:11px}
+.nav-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.student-badge{display:flex;align-items:center;gap:7px;padding:8px 12px;border-radius:12px;background:var(--surface2);border:1px solid var(--border);font-size:12px}
+.student-badge b{color:var(--primary)}
+.icon-btn{border:1px solid var(--border);background:var(--surface);color:var(--text);width:42px;height:42px;border-radius:13px;cursor:pointer}
+.link-pill{padding:9px 14px;border-radius:12px;background:var(--surface2);border:1px solid var(--border);font-size:12px;font-weight:700;color:var(--text)}
+.link-pill:hover{border-color:var(--primary)}
+
+.hero{padding:52px 0 30px}
+.hero-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:24px;align-items:stretch}
+.hero-card,.stats,.phase,.resource-card{background:var(--surface);border:1px solid var(--border);border-radius:26px;box-shadow:var(--shadow)}
+.hero-card{padding:36px;position:relative;overflow:hidden}
+.hero-card:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,var(--primary),transparent 68%);opacity:.13;right:-100px;top:-120px}
+.kicker{display:inline-flex;gap:8px;align-items:center;padding:7px 11px;border-radius:999px;background:var(--surface2);color:var(--primary);font-size:12px;font-weight:800}
+h1{font-size:clamp(30px,4.6vw,54px);line-height:1;margin:16px 0}
+.gradient{background:linear-gradient(90deg,var(--primary),var(--accent));-webkit-background-clip:text;color:transparent}
+.lead{color:var(--muted);font-size:16px;line-height:1.7;max-width:720px}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:13px 18px;border-radius:14px;border:1px solid var(--border);cursor:pointer;font-weight:800}
+.btn-primary{background:var(--primary);color:white;border-color:transparent}
+.btn-secondary{background:var(--surface2);color:var(--text)}
+.stats{padding:22px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{padding:16px;border-radius:18px;background:var(--surface2)}
+.stat b{font-size:24px;display:block}.stat span{font-size:11.5px;color:var(--muted)}
+
+.section{padding:26px 0 60px}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:18px}
+.section h2{font-size:27px;margin:0 0 6px}.section-head p{color:var(--muted);margin:0}
+.phase{padding:24px;margin-bottom:22px}
+
+.rule-box{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:18px 20px;border-radius:18px;background:var(--surface2);border:1px dashed var(--border);margin-bottom:20px}
+.rule-box .ico{font-size:26px}
+.rule-box b{display:block;margin-bottom:3px}
+.rule-box p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
+
+.search{width:100%;padding:13px 15px;border-radius:14px;border:1px solid var(--border);background:var(--surface);color:var(--text);outline:none;margin-bottom:16px}
+
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+.legend-chip{display:flex;align-items:center;gap:7px;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:700}
+.legend-chip.v{background:var(--verde-bg);color:var(--verde)}
+.legend-chip.a{background:var(--amarillo-bg);color:var(--amarillo)}
+.legend-chip.r{background:var(--rojo-bg);color:var(--rojo)}
+.legend-chip.m{background:var(--morado-bg);color:var(--morado)}
+
+.materias-list{display:flex;flex-direction:column;gap:12px}
+.materia{border:1px solid var(--border);border-radius:20px;background:var(--surface2);overflow:hidden}
+.materia summary{list-style:none;cursor:pointer;padding:16px 18px;display:flex;align-items:center;gap:14px;justify-content:space-between}
+.materia summary::-webkit-details-marker{display:none}
+.materia-left{display:flex;align-items:center;gap:12px}
+.materia-icon{font-size:22px;width:38px;height:38px;display:grid;place-items:center;border-radius:11px;background:var(--surface)}
+.materia-name{font-weight:800;font-size:15px}
+.materia-sub{color:var(--muted);font-size:12px;margin-top:2px}
+.materia-chevron{transition:.2s;color:var(--muted)}
+.materia[open] .materia-chevron{transform:rotate(180deg)}
+.materia-progress{width:110px;height:6px;border-radius:20px;background:var(--surface);overflow:hidden}
+.materia-progress span{display:block;height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));width:0%}
+
+.materia-body{padding:0 18px 20px;display:grid;gap:14px}
+
+/* Barra de infografías por materia */
+.resources-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:10px 14px;background:var(--surface);border-radius:12px;border:1px solid var(--border)}
+.resources-bar span{font-size:12px;font-weight:700;color:var(--muted)}
+.btn-sm{padding:7px 12px;font-size:11.5px;border-radius:9px}
+
+.nivel-block{border-radius:16px;padding:14px 16px;background:var(--surface)}
+.nivel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.nivel-title{display:flex;align-items:center;gap:8px;font-weight:800;font-size:13px}
+.nivel-desc{color:var(--muted);font-size:11.5px}
+.nivel-block.verde{border:1px solid var(--verde-bg)}
+.nivel-block.amarillo{border:1px solid var(--amarillo-bg)}
+.nivel-block.rojo{border:1px solid var(--rojo-bg)}
+.nivel-block.morado{border:1px solid var(--morado-bg)}
+.tests-row{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.test-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:9px 4px;border-radius:11px;background:var(--surface2);border:1px solid var(--border);font-size:11.5px;font-weight:800;color:var(--text);text-align:center}
+.test-btn small{font-weight:600;color:var(--muted);font-size:9.5px}
+.test-btn.verde:hover{border-color:var(--verde);color:var(--verde)}
+.test-btn.amarillo:hover{border-color:var(--amarillo);color:var(--amarillo)}
+.test-btn.rojo:hover{border-color:var(--rojo);color:var(--rojo)}
+.test-btn.morado:hover{border-color:var(--morado);color:var(--morado)}
+.test-btn.done{background:var(--accent);color:#fff;border-color:transparent}
+
+/* Nota discreta para pruebas en Google Forms */
+.form-note{margin:10px 2px 0;padding:8px 12px;border-radius:10px;background:var(--morado-bg);color:var(--morado);font-size:11px;font-weight:600;line-height:1.5}
+
+/* Fase 2 bloques */
+.blocks{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.block{padding:20px;background:var(--surface2);border-radius:20px}
+.block-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.block b{font-size:15px}.block p{color:var(--muted);font-size:12.5px;line-height:1.55;margin:6px 0 12px}
+.progress{height:8px;background:var(--surface);border-radius:20px;overflow:hidden;margin:10px 0}
+.progress span{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .3s}
+.block .tests-row{grid-template-columns:repeat(5,1fr)}
+
+/* Fase 3 tripartita */
+.formats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.format-card{padding:22px;border-radius:20px;background:var(--surface2);border:1px solid var(--border);display:flex;flex-direction:column;gap:10px}
+.format-card.highlight{border-color:var(--primary);background:color-mix(in srgb,var(--primary) 8%,var(--surface2))}
+.format-head{display:flex;align-items:center;gap:9px}
+.badge{padding:4px 9px;border-radius:999px;font-size:10.5px;font-weight:900}
+.badge.pdf{background:var(--rojo-bg);color:var(--rojo)}
+.badge.forms{background:var(--amarillo-bg);color:var(--amarillo)}
+.badge.html{background:var(--verde-bg);color:var(--verde)}
+.format-card h3{margin:2px 0 0;font-size:16px}
+.format-card p{color:var(--muted);font-size:12.5px;line-height:1.6;margin:0;flex:1}
+
+/* Butech / AI */
+.butech{display:grid;grid-template-columns:.8fr 1.2fr;gap:24px;align-items:center}
+.butech img{width:100%;max-height:320px;object-fit:contain;border-radius:20px}
+.tag{display:inline-block;padding:6px 9px;background:rgba(22,198,163,.12);color:var(--accent);border-radius:999px;font-size:11px;font-weight:900}
+.ai-buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+
+/* Panel de prompts copiables */
+.prompt-panel{margin-top:18px;border:1px solid var(--border);border-radius:16px;background:var(--surface2);overflow:hidden}
+.prompt-panel summary{list-style:none;cursor:pointer;padding:14px 16px;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:space-between}
+.prompt-panel summary::-webkit-details-marker{display:none}
+.prompt-panel summary .chev{transition:.2s;color:var(--muted)}
+.prompt-panel[open] summary .chev{transform:rotate(180deg)}
+.prompt-panel-body{padding:0 16px 16px;display:grid;gap:10px}
+.prompt-card{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:12px 14px;display:flex;gap:12px;align-items:center;justify-content:space-between}
+.prompt-card p{margin:0;font-size:12px;line-height:1.55;color:var(--text)}
+.prompt-card b{display:block;font-size:11px;color:var(--primary);margin-bottom:4px}
+.copy-btn{flex-shrink:0;padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:var(--surface2);font-size:11px;font-weight:800;cursor:pointer;color:var(--text)}
+.copy-btn:hover{border-color:var(--primary);color:var(--primary)}
+.copy-btn.copied{background:var(--verde);color:#fff;border-color:transparent}
+
+/* Bútech — botón flotante + panel chatbot */
+.butech-fab{position:fixed;right:20px;bottom:20px;z-index:60;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary2));border:none;box-shadow:var(--shadow);cursor:pointer;display:grid;place-items:center;font-size:30px;animation:fab-pulse 2.6s infinite}
+.butech-fab span.fab-label{position:absolute;right:74px;bottom:14px;background:var(--surface);border:1px solid var(--border);padding:7px 12px;border-radius:12px;font-size:12px;font-weight:800;white-space:nowrap;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.2s}
+.butech-fab:hover span.fab-label{opacity:1}
+@keyframes fab-pulse{0%,100%{box-shadow:0 0 0 0 rgba(139,124,246,.35)}50%{box-shadow:0 0 0 14px rgba(139,124,246,0)}}
+
+.butech-panel{position:fixed;right:20px;bottom:96px;z-index:61;width:360px;max-width:90vw;max-height:72vh;background:var(--surface);border:1px solid var(--border);border-radius:22px;box-shadow:var(--shadow);display:none;flex-direction:column;overflow:hidden}
+.butech-panel.open{display:flex}
+.butech-head{display:flex;align-items:center;gap:10px;padding:14px 16px;background:var(--surface2);border-bottom:1px solid var(--border)}
+.butech-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:grid;place-items:center;font-size:20px}
+.butech-head-text b{display:block;font-size:13.5px}
+.butech-head-text span{display:block;font-size:11px;color:var(--muted)}
+.butech-close{margin-left:auto;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;width:28px;height:28px;border-radius:8px}
+.butech-close:hover{background:var(--surface)}
+
+.butech-selectwrap{padding:10px 14px 0}
+.butech-selectwrap select{width:100%;padding:9px 10px;border-radius:11px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:12px}
+
+.butech-body{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.bmsg{max-width:86%;padding:10px 13px;border-radius:15px;font-size:12.5px;line-height:1.55}
+.bmsg.bot{align-self:flex-start;background:var(--surface2);border-bottom-left-radius:4px}
+.bmsg.user{align-self:flex-end;background:var(--primary);color:#fff;border-bottom-right-radius:4px}
+.bmsg ul{margin:6px 0 0;padding-left:16px}
+
+.butech-quick{display:flex;flex-wrap:wrap;gap:7px;padding:0 14px 10px}
+.qchip{padding:8px 11px;border-radius:999px;background:var(--surface2);border:1px solid var(--border);font-size:11.5px;font-weight:700;cursor:pointer;color:var(--text)}
+.qchip:hover{border-color:var(--primary);color:var(--primary)}
+
+.butech-input{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border)}
+.butech-input input{flex:1;padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);color:var(--text);outline:none;font-size:12.5px}
+.butech-input button{padding:0 14px;border-radius:12px;border:none;background:var(--primary);color:#fff;font-weight:800;cursor:pointer}
+@media(max-width:560px){.butech-panel{right:10px;left:10px;width:auto;bottom:88px}.butech-fab{right:16px;bottom:16px}}
+
+/* Modal de enlace pendiente */
+.modal-overlay{position:fixed;inset:0;background:rgba(8,13,24,.55);backdrop-filter:blur(4px);z-index:80;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--surface);border:1px solid var(--border);border-radius:22px;box-shadow:var(--shadow);max-width:380px;width:100%;padding:26px;text-align:center}
+.modal-box .modal-ico{font-size:38px;margin-bottom:10px}
+.modal-box h3{margin:0 0 8px;font-size:17px}
+.modal-box p{margin:0 0 18px;color:var(--muted);font-size:13px;line-height:1.6}
+.modal-box .btn{width:100%}
+
+.footer{padding:28px 0;color:var(--muted);border-top:1px solid var(--border);font-size:12px}
+.footer-links{display:flex;flex-wrap:wrap;gap:6px 10px;margin-top:8px}
+.footer-links a{color:var(--muted)}
+.footer-links a:hover{color:var(--primary)}
+
+@media(max-width:900px){.hero-grid,.butech{grid-template-columns:1fr}.blocks,.formats-grid{grid-template-columns:1fr}.tests-row{grid-template-columns:repeat(6,1fr)}.block .tests-row{grid-template-columns:repeat(5,1fr)}}
+@media(max-width:560px){.nav{height:auto;padding:10px 0}.brand small{display:none}.hero{padding-top:26px}.hero-card{padding:22px}h1{font-size:34px}.stats{grid-template-columns:1fr 1fr}.phase{padding:16px}.section-head{display:block}.section-head .btn{margin-top:14px;width:100%}.tests-row{grid-template-columns:repeat(3,1fr);gap:6px}.block .tests-row{grid-template-columns:repeat(3,1fr)}.test-btn{font-size:10px;padding:7px 2px}.prompt-card{flex-direction:column;align-items:stretch}}
+.butech-fab img{width:46px;height:46px;object-fit:contain}
+.butech-avatar{overflow:hidden;background:#fff}
+.butech-avatar img{width:100%;height:100%;object-fit:contain}
+
+/* ACCESO */
+.lock{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--bg)}
+html.unlocked .lock{display:none}
+html:not(.unlocked) body > :not(.lock):not(script){display:none !important}
+.lock-box{width:100%;max-width:400px;background:var(--surface);border:1px solid var(--border);border-radius:26px;box-shadow:var(--shadow);padding:30px;text-align:center}
+.lock-box img{width:140px;max-height:140px;object-fit:contain;margin-bottom:8px}
+.lock-box h2{margin:0 0 6px;font-size:22px}
+.lock-box p{margin:0 0 18px;color:var(--muted);font-size:13px;line-height:1.6}
+.lock-box input{width:100%;padding:13px 15px;border-radius:14px;border:1px solid var(--border);background:var(--surface2);color:var(--text);outline:none;margin-bottom:10px;font-size:14px;text-align:center}
+.lock-box input:focus{border-color:var(--primary)}
+.lock-box .btn{width:100%;margin-top:4px}
+.lock-error{min-height:18px;margin-top:10px;font-size:12px;font-weight:700;color:var(--danger)}
+</style>
+<script>try{if(localStorage.getItem('eag-acceso')==='ok')document.documentElement.classList.add('unlocked')}catch(e){}</script>
 </head>
 <body>
-  <aside class="sidebar" id="sidebar">
-    <div class="logo">
-      <h2>🎓 Aula Virtual EAG</h2>
-      <p>Menú de Materias</p>
-    </div>
-    <nav class="menu">
-      <!-- Convertimos los botones en enlaces <a> -->
-      <a href="habilidad-verbal.html" class="nav-btn" style="--btn-color: var(--verde);">Habilidad Verbal</a>
-      <a href="habilidad-matematica.html" class="nav-btn" style="--btn-color: var(--azul);">Habilidad Matemática</a>
-      <a href="matematicas.html" class="nav-btn" style="--btn-color: var(--morado);">Matemáticas</a>
-      <a href="fisica.html" class="nav-btn" style="--btn-color: var(--naranja);">Física</a>
-      <a href="quimica.html" class="nav-btn" style="--btn-color: var(--turquesa);">Química</a>
-      <a href="biologia.html" class="nav-btn" style="--btn-color: var(--amarillo);">Biología</a>
-      <a href="espanol.html" class="nav-btn" style="--btn-color: var(--verde-oscuro);">Español</a>
-      <a href="literatura.html" class="nav-btn" style="--btn-color: #af7ac5;">Literatura</a>
-      <a href="geografia-universal.html" class="nav-btn" style="--btn-color: #58d68d;">Geografía Universal</a>
-      <a href="geografia-mexico.html" class="nav-btn" style="--btn-color: #ff6b6b;">Geografía de México</a>
-      <a href="historia-universal.html" class="nav-btn" style="--btn-color: var(--rojo);">Historia Universal</a>
-      <a href="historia-mexico.html" class="nav-btn" style="--btn-color: #c0392b;">Historia de México</a>
-      <a href="filosofia.html" class="nav-btn" style="--btn-color: #6c5ce7;">Filosofía</a>
-      <a href="ingles.html" class="nav-btn" style="--btn-color: #2980b9;">Inglés</a>
-      <a href="formacion-civica.html" class="nav-btn" style="--btn-color: #8e44ad;">Formación Cívica y Ética</a>
-      <a href="arte.html" class="nav-btn" style="--btn-color: #fd79a8;">Arte Universal y Mexicano</a>
-      <a href="dibujo.html" class="nav-btn" style="--btn-color: #00cec9;">Dibujo</a>
-    </nav>
-  </aside>
 
-  <main class="main-content">
-    <div class="header">
-      <h1>Bienvenido al Aula Virtual EAG</h1>
-      <p>Selecciona una materia del menú para ver los recursos.</p>
+<div class="lock" id="lock">
+  <div class="lock-box">
+    <img src="https://i.ibb.co/35jHmzBk/BUTECH-PNG.png" alt="Bútech EAG">
+    <h2>Aula Virtual EAG</h2>
+    <p>Ingresa tu código y contraseña de acceso.</p>
+    <input id="lockCodigo" type="text" placeholder="Código de acceso" autocomplete="off" autocapitalize="characters">
+    <input id="lockPass" type="password" placeholder="Contraseña" autocomplete="off" onkeydown="if(event.key==='Enter') validarAcceso()">
+    <button class="btn btn-primary" onclick="validarAcceso()">Entrar</button>
+    <div class="lock-error" id="lockError"></div>
+  </div>
+</div>
+
+<header class="topbar">
+  <div class="container nav">
+    <a class="brand" href="#inicio">
+      <img class="logo" src="https://i.ibb.co/1YTdV2Qx/eag-2022-removebg-preview.png" alt="Logo EAG">
+      <div>EAG <small>Aula Virtual · Centro de Evaluaciones ECOEMS 2026</small></div>
+    </a>
+    <div class="nav-right">
+      <div class="student-badge">ID Estudiante: <b id="student-id">EAG-2026-X84</b></div>
+      <a class="link-pill" href="https://drive.google.com/file/d/1nW8lOMlGb2lkNmZTa7rHtEM_lEYRSjWS/view?usp=drive_link" target="_blank" rel="noopener">Guía para Padres</a>
+      <button class="icon-btn" id="themeBtn" title="Cambiar modo">☾</button>
     </div>
-    <footer>
-      Aula Virtual EAG © 2026 • Plataforma de preparación oficial
-    </footer>
-  </main>
+  </div>
+</header>
+
+<main id="inicio" class="container">
+
+<section class="hero">
+  <div class="hero-grid">
+    <div class="hero-card">
+      <span class="kicker">🎯 ENTRENAMIENTO + SIMULACIÓN CON IA</span>
+      <h1>Aula Virtual <span class="gradient">EAG</span></h1>
+      <p class="lead">Practica materia por materia, detecta tus errores y avanza paso a paso. Cada materia tiene 15 tests de entrenamiento en tres niveles, con retroalimentación inmediata y tu avance registrado.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#fase1">🚀 Comenzar entrenamiento</a>
+        <a class="btn btn-secondary" href="#butech">🐼 Consultar a Bútech</a>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>12</b><span>Materias</span></div>
+      <div class="stat"><b>15</b><span>Tests por materia</span></div>
+      <div class="stat"><b id="totalDisponibles">0</b><span>Tests disponibles</span></div>
+      <div class="stat"><b id="avanceGlobal">0%</b><span>Tu avance</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FASE 1: ENTRENAMIENTO MODULAR -->
+<section id="fase1" class="section">
+  <div class="section-head">
+    <div><h2>Materias</h2><p>15 tests de entrenamiento por materia, en 3 niveles de dificultad.</p></div>
+  </div>
+
+  <div class="phase">
+
+    <div class="rule-box">
+      <div class="ico">🔓</div>
+      <div>
+        <b>No bloqueamos por calificación</b>
+        <p>Puedes avanzar de un test al siguiente aunque tu resultado sea bajo. Cada test terminado te muestra tu puntaje y el tema que conviene reforzar — el objetivo es aprender del error, no castigarlo.</p>
+      </div>
+    </div>
+
+    <div class="legend">
+      <span class="legend-chip v">🟢 Básico · Tests 01-05</span>
+      <span class="legend-chip a">🟡 Intermedio · Tests 06-10</span>
+      <span class="legend-chip r">🔴 Avanzado · Tests 11-15</span>
+      <span class="legend-chip m">🟣 Extras · Tests 16 en adelante</span>
+    </div>
+
+    <input class="search" id="search" placeholder="🔎 Buscar materia...">
+    <div class="materias-list" id="materias"></div>
+  </div>
+</section>
+
+<!-- APOYO CON IA -->
+<section class="section" id="butech">
+  <div class="phase butech">
+    <div>
+      <span class="tag">BÚTECH · GUÍA DE DUDAS</span>
+      <h2>Error → Análisis → Reforzamiento</h2>
+      <p class="lead" style="font-size:14.5px">Bútech no reemplaza tu guía: te ayuda a usarla. Tu material y esquema de temas ya están en NotebookLM — Bútech (el osito panda 🐼) es el puente: te dice qué preguntar y dónde, para que resuelvas tu duda directo con NotebookLM o con una IA general (Gemini o Claude).</p>
+      <ol style="font-size:12.5px;color:var(--muted);line-height:1.9;padding-left:18px;margin:14px 0 0">
+        <li>Detectas tu reactivo fallado en un test o prueba.</li>
+        <li>Abres tu NotebookLM: ahí está tu guía y el material de esa materia.</li>
+        <li>Le preguntas directo, o usas uno de los prompts listos de abajo.</li>
+        <li>Si quieres profundizar más, Bútech te manda a Gemini o Claude con tu duda ya lista para pegar.</li>
+      </ol>
+      <div class="ai-buttons">
+        <a href="https://notebooklm.google.com" target="_blank" rel="noopener" class="btn btn-secondary">📓 Abrir mi NotebookLM</a>
+        <button class="btn btn-primary" onclick="openButech()">🐼 Consultar a Bútech</button>
+      </div>
+
+      <!-- Panel de Notación de Prompts -->
+      <details class="prompt-panel">
+        <summary>📋 Prompts listos para copiar (Claude, Gemini o NotebookLM) <span class="chev">▾</span></summary>
+        <div class="prompt-panel-body">
+          <div class="prompt-card">
+            <p><b>1 · Explicación + fórmula + ejemplos</b>"Fallé la pregunta X del tema Y en el test de Física. Explícame el concepto clave, dame la fórmula y 2 ejemplos prácticos estilo ECOEMS."</p>
+            <button class="copy-btn" data-prompt="p1" onclick="copiarPrompt(this)">Copiar</button>
+          </div>
+          <div class="prompt-card">
+            <p><b>2 · Por qué fallé esta opción</b>"En esta pregunta de [Materia], tema [Y], marqué la opción [B] y era incorrecta. Explícame por qué [B] está mal y por qué la opción correcta sí lo es, con un truco para no repetir el error."</p>
+            <button class="copy-btn" data-prompt="p2" onclick="copiarPrompt(this)">Copiar</button>
+          </div>
+          <div class="prompt-card">
+            <p><b>3 · Mini-quiz de refuerzo</b>"Genera un mini-quiz de 5 preguntas de opción múltiple sobre [tema] de [Materia], nivel ECOEMS/COMIPEMS, con retroalimentación después de cada respuesta."</p>
+            <button class="copy-btn" data-prompt="p3" onclick="copiarPrompt(this)">Copiar</button>
+          </div>
+        </div>
+      </details>
+    </div>
+    <div>
+      <img src="https://i.ibb.co/35jHmzBk/BUTECH-PNG.png" alt="BúTech EAG">
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div>© 2026 Cursos y Talleres EAG · Aula Virtual · Centro de Evaluaciones ECOEMS · Diseño responsive</div>
+    <div class="footer-links">
+      <a href="https://drive.google.com/file/d/1nW8lOMlGb2lkNmZTa7rHtEM_lEYRSjWS/view?usp=drive_link" target="_blank" rel="noopener">Guía para Padres</a> ·
+      <a href="docs/privacidad.html" data-tipo="html" onclick="event.preventDefault();irA(this)">Aviso de Privacidad y Derechos ARCO</a>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL: enlace pendiente -->
+<div class="modal-overlay" id="modalPendiente" onclick="if(event.target===this) cerrarPendiente()">
+  <div class="modal-box">
+    <div class="modal-ico">🛠️</div>
+    <h3>Próximamente en tu ruta de estudio</h3>
+    <p>Este test estará disponible próximamente en tu ruta de estudio. Mientras tanto, sigue con los demás tests disponibles o consulta tus dudas con Bútech.</p>
+    <button class="btn btn-primary" onclick="cerrarPendiente()">Entendido</button>
+  </div>
+</div>
+
+<!-- BÚTECH — BOTÓN FLOTANTE + PANEL CHATBOT (osito panda, guía de dudas) -->
+<button class="butech-fab" id="butechFab" onclick="openButech()" aria-label="Abrir Bútech">
+  <img src="https://i.ibb.co/35jHmzBk/BUTECH-PNG.png" alt="Bútech"><span class="fab-label">¿Dudas? Pregúntale a Bútech</span>
+</button>
+
+<div class="butech-panel" id="butechPanel">
+  <div class="butech-head">
+    <div class="butech-avatar"><img src="https://i.ibb.co/35jHmzBk/BUTECH-PNG.png" alt="Bútech"></div>
+    <div class="butech-head-text">
+      <b>Bútech</b>
+      <span>Tu guía de dudas · puente a NotebookLM</span>
+    </div>
+    <button class="butech-close" onclick="closeButech()">✕</button>
+  </div>
+
+  <div class="butech-selectwrap">
+    <select id="butechMateria" onchange="butechCambiarMateria()">
+      <option value="">Elige tu materia…</option>
+    </select>
+  </div>
+
+  <div class="butech-body" id="butechBody"></div>
+
+  <div class="butech-quick" id="butechQuick"></div>
+
+  <div class="butech-input">
+    <input id="butechInput" type="text" placeholder="Escribe tu duda..." onkeydown="if(event.key==='Enter') butechEnviar()">
+    <button onclick="butechEnviar()">Enviar</button>
+  </div>
+</div>
+
+<script>
+/* ============================================================================
+   CONFIGURACIÓN — edita solo esta zona para conectar tus ligas reales
+   ============================================================================ */
+
+// 1) Las 12 materias.
+const MATERIAS = [
+  {id:'espanol',      icon:'✍️', nombre:'Español'},
+  {id:'hab-verbal',   icon:'💬', nombre:'Habilidad Verbal'},
+  {id:'matematicas',  icon:'➗', nombre:'Matemáticas'},
+  {id:'hab-mat',      icon:'🧠', nombre:'Habilidad Matemática'},
+  {id:'fisica',       icon:'⚛️', nombre:'Física'},
+  {id:'quimica',      icon:'🧪', nombre:'Química'},
+  {id:'biologia',     icon:'🧬', nombre:'Biología'},
+  {id:'geog-univ',    icon:'🌍', nombre:'Geografía Universal'},
+  {id:'geog-mex',     icon:'🗺️', nombre:'Geografía de México'},
+  {id:'hist-univ',    icon:'📜', nombre:'Historia Universal'},
+  {id:'hist-mex',     icon:'🏛️', nombre:'Historia de México'},
+  {id:'fce',          icon:'⚖️', nombre:'Formación Cívica y Ética'}
+];
+
+// 2) Niveles: 15 tests por materia (3 niveles de 5).
+const NIVELES = [
+  {key:'basico',     label:'Nivel Básico',     color:'verde',    emoji:'🟢', desc:'Aprende · Practica · Corrige', from:1,  to:5},
+  {key:'intermedio', label:'Nivel Intermedio', color:'amarillo', emoji:'🟡', desc:'Practica con mayor exigencia', from:6,  to:10},
+  {key:'avanzado',   label:'Nivel Avanzado',   color:'rojo',     emoji:'🔴', desc:'Enfrenta retos de examen',     from:11, to:15}
+];
+const TOTAL_TESTS = 15; // mínimo de espacios por materia; si hay más ligas, se agregan como "Extras"
+
+// 3) LIGAS por materia, en orden (Test 01, 02, 03…). Pega aquí más ligas cuando las tengas:
+//    si una materia tiene más de 15, los excedentes aparecen solos en el bloque "Extras".
+//    Las ligas de docs.google.com/forms se marcan automáticamente como "Forms".
+const LIGAS = {
+ "espanol": [
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/espa%C3%B1ol/test-001",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/espa%C3%B1ol/test-002",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/espa%C3%B1ol/test-003",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/espa%C3%B1ol/test-004",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/espa%C3%B1ol/test-005",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/espa%C3%B1ol/test-006",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/espa%C3%B1ol/test-007",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/espa%C3%B1ol/test-008",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/espa%C3%B1ol/test-009",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/espa%C3%B1ol/test-0010",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/espa%C3%B1ol/test-0011",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/espa%C3%B1ol/test-0012",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/espa%C3%B1ol/test-0013",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/espa%C3%B1ol/test-0014",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/espa%C3%B1ol/test-0015",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/espa%C3%B1ol/test-0016",
+  "https://docs.google.com/forms/d/e/1FAIpQLSd-swQKNtnJBhGKUA90cQwXgKsgjTEwfd4BTBDJEaGXRrJkSw/viewform"
+ ],
+ "hab-mat": [
+  "https://docs.google.com/forms/d/e/1FAIpQLSe7czDvfcm_Xxu-AR7aa6sg24JVn5Ai8IB9fXE-s_yGntM4qQ/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSfczJ4kLqiu3NRSm4q_VkAHvYx5tNHvHa9Za9AngPnt8NDnLQ/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLScKYhjvIcgfwubJmtVwhSl1a6ZaqhKd4OYzN4hmhS_9J1EMZg/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSeqS_-ptjezv_l3_5h6cBo82Q2KVXruv56HtCcNVOyiAa9ufw/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSdwNbTCJt62k8Ayft-LfE25vRjPcsaCh-2ZioL1V4pTcDYdjg/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSeTbYQFUoWVtWcPNxCWYMblbt_NLDNvFYbKvmFKKCZXjnI-4w/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSfD-LppBEUT_s47s-IKBhE1n4iz2oacIeB1hV2rPtX5dhBGhw/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSe5Gu04spi6QHh5ZXd47Zq3MhJgcRA0ydwJaV4LDkgO6lUdxQ/viewform"
+ ],
+ "fisica": [
+  "https://docs.google.com/forms/d/e/1FAIpQLSchXmRnLvs4oI6dL-tS12O6vTfzfvnq8YLmQjgoywiKQ_yf1Q/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSd6Rh6n4lDxrOk-kHELHy1bdvaZaN8rYNP2EPiNSqWtWy7KwQ/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSdnmSS7wOsiN2CN65ySy8bMnuTxpBhgTZWIq7WBTEa6-f5_eQ/viewform?usp=send_form",
+  "https://docs.google.com/forms/d/e/1FAIpQLSddKKqb1UmaSu8jPKqY07iHN0FNYpm6rZfa6AN4nIyq78zfxw/viewform"
+ ],
+ "quimica": [
+  "https://docs.google.com/forms/d/e/1FAIpQLScM-qgAVu8dlImNpUr2IIFkuaVjPk6x85Lt4E_hau3OKfft4Q/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSck__xTH809-yc280jGmDz5B_2VeM7GHlXrpGXuQ9M6v-NpoQ/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSf4hikrM1nDRZg-wsK0SJs9PZjJtv5s6MH0HoxZCxTRrDYZ2w/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLScmyjkNAUZoBoL4FfGwSOhQbuYRqv_I4ld3k0DCxSin8VP-Ww/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSfJDHZNZQBZhMWJRX5fxH33O-6B-fGvkLmvugHoMZcFPkq82w/viewform"
+ ],
+ "biologia": [
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/biolog%C3%ADa/biologia-01",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/biolog%C3%ADa/biologia-02",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/biolog%C3%ADa/biologia-03",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/biolog%C3%ADa/biologia-04",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/biolog%C3%ADa/biologia-05?read_current=1",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/biolog%C3%ADa/biologia-06?read_current=1",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/biolog%C3%ADa/biologia-07",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/biolog%C3%ADa/biologia-08",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/biolog%C3%ADa/biologia-09",
+  "https://docs.google.com/forms/d/e/1FAIpQLSfNlHwZHQq2V5hBg-QE9mf34EbEGQ9Z4Obmdq6L4vDZdAOeDw/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLScKG9ECl3u5Syo7x0Y9qD-eC34oZZZC9LtaTQyu5SWiNQRPKA/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSc5rK9CMm2SCGtyK9er3N1VgvycVJxmSLiiVIDxTYvKL25JHA/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSdxFdP-NoHtp-LwzyVG27_gjxtvnXL-L3BLR0_KRSoIZY_S7Q/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSdFlrBn1IJUegkdSsmoztk92P_Z9dR4qb8hspHxO1hNFnbCnw/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSeH7nK-qeT1T0L4wsnQo_S4FfqvOLNO9rcs3wcpGX_AQnqRWQ/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSfCFeE79z4Ewkyf6K_RYLZN6DGuRotweX32sKBHhPCu-IFTqg/viewform"
+ ],
+ "geog-univ": [
+  "https://docs.google.com/forms/d/e/1FAIpQLSdGVtiunpotLuaTOGMjLhJ3GYGt_9xdyLjGP-Lk-0-8wBaOcQ/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSeSU2kfaOFdeM3_aoP7Aihf7rCHe0xPd2lzQxhqm7rVqZs56w/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLScdrxcKg9U7Bjp_SXXfLdSMzPVmY9HWjPDLE6mT1xYb_I_wiA/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSfmR6X6T8K-7e0lDPG6OzY95odzWsvJxWLH94MdHNWPHTNxyg/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSejxL6mCQ4_z_PnRFZm6MRL0bJsKCrzFlVInCYg9-wUycplQA/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSd7EHT9J4VphWBNdCwf4Ef8tIIHOi_rqn05emN_XCB0DmHg-w/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLScK46wvrpwq5MrRyu2gM3K01S2ax0iSiM46hknjfeaZ-CEysA/viewform"
+ ],
+ "geog-mex": [
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/geograf%C3%ADa-de-m%C3%A9xico/geo-mx-01",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/geograf%C3%ADa-de-m%C3%A9xico/geo-mx-02",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/geograf%C3%ADa-de-m%C3%A9xico/geo-mx-03",
+  "https://docs.google.com/forms/d/e/1FAIpQLSdZ6wH5adPf8jKW-1r_3_1bY1kJVa1K7YRwLZ-XOlwAHmHPtw/viewform"
+ ],
+ "hist-mex": [
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/historia-de-m%C3%A9xico/hm-test-0001",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/historia-de-m%C3%A9xico/hm-test-0002",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/historia-de-m%C3%A9xico/hm-test-0003",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/historia-de-m%C3%A9xico/hm-test-0004",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/historia-de-m%C3%A9xico/hm-test-0005",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/historia-de-m%C3%A9xico/hm-test-0006",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/historia-universal/his-u-007",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/historia-de-m%C3%A9xico/hm-test-0008",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/historia-de-m%C3%A9xico/hm-test-0009",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/historia-de-m%C3%A9xico/hm-test-00010",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/historia-de-m%C3%A9xico/hm-test-00011",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/historia-de-m%C3%A9xico/hm-test-00012",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/historia-de-m%C3%A9xico/hm-test-00013",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/historia-de-m%C3%A9xico/hm-test-00014",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/historia-de-m%C3%A9xico/hm-test-00015",
+  "https://docs.google.com/forms/d/e/1FAIpQLScIbp0Bnp5vPs854VJQOD5uGBbDQe0DHT-Pnx9wDURQ7DsSGw/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLScwIFHpG9SHGKDgxQJOtm0bDtIm9sP2C67H2dEwE3_BnblkSw/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSeoPXZBhQrkz0DDU9tsLlRAOFfgpavbpSOi3Q9MIZgZh3LUYg/viewform"
+ ],
+ "fce": [
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/formaci%C3%B3n-c%C3%ADvica-y-%C3%A9tica",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/formaci%C3%B3n-c%C3%ADvica-y-%C3%A9tica/fce-002",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/formaci%C3%B3n-c%C3%ADvica-y-%C3%A9tica/fce-003",
+  "https://sites.google.com/view/aula-virtual-5-0-eag/materias-0001/formaci%C3%B3n-c%C3%ADvica-y-%C3%A9tica/fce-004",
+  "https://docs.google.com/forms/d/e/1FAIpQLSckV7LY59Wek-s4REqAjtlVpkHMp_yWubByCzRaFbN2BDAZrQ/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSdw7MHR7wHxVxvaOCU2cBOuVdTR5fVdPFl_HM2qO87AIRRSQg/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLScKNBPsNqEuX-XILM_RnvttKp6ShlOs1uBLZxMuywhWiLBxkw/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSdpZEICaDs0juhG9tDSFKSSy_8HfvBxgMkiAnErqYJXTyIADg/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSdaOyRIouGLIhnxaxwi7AA61hsOgJvpPPlkpimK643M1debPw/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSeITttTk6C4vpQ413VdkEJppAci5TpEA8ZV3tFybGhWMzUjtg/viewform",
+  "https://docs.google.com/forms/d/e/1FAIpQLSeXdBnBmWoeMZ2K6xPAJ_bALLudLGf9b_PC7--c5xamvSFPcg/viewform"
+ ]
+};
+
+function tipoLiga(url){ return url.includes('docs.google.com/forms') ? 'Forms' : 'Web'; }
+function totalDeMateria(id){ return Math.max(TOTAL_TESTS, (LIGAS[id]||[]).length); }
+
+/* ============================================================================
+   ACCESO — código y contraseña de entrada
+   ============================================================================ */
+const ACCESO_CODIGO = 'EAG2027';
+const ACCESO_PASS   = 'EAG2027';
+function validarAcceso(){
+  const c = document.getElementById('lockCodigo').value.trim().toUpperCase();
+  const p = document.getElementById('lockPass').value.trim().toUpperCase();
+  if(c === ACCESO_CODIGO && p === ACCESO_PASS){
+    try{ localStorage.setItem('eag-acceso','ok'); }catch(e){}
+    document.documentElement.classList.add('unlocked');
+  }else{
+    document.getElementById('lockError').textContent = 'Código o contraseña incorrectos.';
+  }
+}
+
+/* ============================================================================
+   RENDER — no necesitas editar de aquí en adelante
+   ============================================================================ */
+
+const STORAGE_KEY = 'eag-aula-progreso';
+function getProgreso(){ try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ return {}; } }
+function marcarVisto(testKey){
+  const p = getProgreso(); p[testKey] = true;
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(p)); }catch(e){ /* almacenamiento no disponible */ }
+  if(typeof actualizarAvanceGlobal==='function') actualizarAvanceGlobal();
+}
+
+function siguienteIdx(id){
+  const p = getProgreso();
+  return (LIGAS[id]||[]).findIndex((u,i) => !p[`${id}-${i+1}`]);
+}
+function siguienteLabel(id){
+  const i = siguienteIdx(id);
+  return i < 0 ? '✔ Completaste todo lo disponible' : `▶ Continuar · Test ${String(i+1).padStart(2,'0')}`;
+}
+function continuarMateria(id, btn){
+  const i = siguienteIdx(id);
+  if(i < 0) return;
+  marcarVisto(`${id}-${i+1}`);
+  const a = btn.closest('.materia-body').querySelector(`[data-key="${id}-${i+1}"]`);
+  if(a) a.classList.add('done');
+  btn.textContent = siguienteLabel(id);
+  window.open(LIGAS[id][i], '_blank', 'noopener');
+}
+
+function botonTest(m, n, color, progreso){
+  const testKey = `${m.id}-${n}`;
+  const visto = !!progreso[testKey];
+  const url = (LIGAS[m.id]||[])[n-1];
+  const href = url || `#pendiente-${m.id}-${n}`;
+  const etiqueta = url ? tipoLiga(url) : 'Pronto';
+  return {visto, html:`<a class="test-btn ${color}${visto ? ' done' : ''}" href="${href}" data-tipo="${url ? 'externo' : 'pendiente'}" data-key="${testKey}" onclick="event.preventDefault();irA(this)">Test ${String(n).padStart(2,'0')}<small>${etiqueta}</small></a>`};
+}
+
+function renderMaterias(filtro=''){
+  const box = document.getElementById('materias');
+  box.innerHTML = '';
+  const progreso = getProgreso();
+
+  MATERIAS
+    .filter(m => m.nombre.toLowerCase().includes(filtro.toLowerCase()))
+    .forEach(m => {
+      const totalTests = totalDeMateria(m.id);
+      let vistos = 0;
+
+      const bloques = NIVELES.slice();
+      if(totalTests > TOTAL_TESTS){
+        bloques.push({key:'extras', label:'Extras', color:'morado', emoji:'🟣', desc:'Tests adicionales', from:TOTAL_TESTS+1, to:totalTests});
+      }
+
+      const nivelesHtml = bloques.map(niv => {
+        const botones = [];
+        for(let n = niv.from; n <= niv.to; n++){
+          const b = botonTest(m, n, niv.color, progreso);
+          if(b.visto) vistos++;
+          botones.push(b.html);
+        }
+        return `
+          <div class="nivel-block ${niv.color}">
+            <div class="nivel-head">
+              <span class="nivel-title">${niv.emoji} ${niv.label}</span>
+              <span class="nivel-desc">${niv.desc}</span>
+            </div>
+            <div class="tests-row">${botones.join('')}</div>
+          </div>`;
+      }).join('');
+
+      const pct = Math.round((vistos/totalTests)*100);
+      const disponibles = (LIGAS[m.id]||[]).length;
+
+      const el = document.createElement('details');
+      el.className = 'materia';
+      el.innerHTML = `
+        <summary>
+          <div class="materia-left">
+            <div class="materia-icon">${m.icon}</div>
+            <div>
+              <div class="materia-name">${m.nombre}</div>
+              <div class="materia-sub">${disponibles} de ${totalTests} tests disponibles</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="materia-progress"><span style="width:${pct}%"></span></div>
+            <span class="materia-chevron">▾</span>
+          </div>
+        </summary>
+        <div class="materia-body">
+          ${disponibles ? `<div><button class="btn btn-secondary" onclick="continuarMateria('${m.id}', this)">${siguienteLabel(m.id)}</button></div>` : ''}
+          ${nivelesHtml}
+        </div>
+      `;
+      box.appendChild(el);
+    });
+  actualizarAvanceGlobal();
+}
+function actualizarAvanceGlobal(){
+  const p = getProgreso();
+  let vistos = 0, total = 0, disp = 0;
+  MATERIAS.forEach(m => {
+    const t = totalDeMateria(m.id); total += t; disp += (LIGAS[m.id]||[]).length;
+    for(let n=1;n<=t;n++){ if(p[`${m.id}-${n}`]) vistos++; }
+  });
+  const el = document.getElementById('avanceGlobal');
+  if(el) el.textContent = Math.round(vistos/total*100) + '%';
+  const d = document.getElementById('totalDisponibles');
+  if(d) d.textContent = disp;
+}
+renderMaterias();
+document.getElementById('search').addEventListener('input', e => renderMaterias(e.target.value));
+
+/* ============================================================================
+   NAVEGACIÓN UNIFICADA — maneja tests HTML, Google Forms y ligas externas,
+   detecta ligas aún no configuradas y muestra el modal "próximamente"
+   en vez de un error del navegador (compatible con iframe de Google Sites,
+   sin usar alert()/confirm() nativos).
+   ============================================================================ */
+function esPendiente(href, tipo){
+  if(!href) return true;
+  if(href.startsWith('#pendiente')) return true;
+  return false;
+}
+
+function irA(el){
+  const href = el.getAttribute('href');
+  const key  = el.dataset.key || '';
+  if(esPendiente(href, el.dataset.tipo)){ mostrarPendiente(); return; }
+  if(key) marcarVisto(key);
+  el.classList.add('done');
+  window.open(href, '_blank', 'noopener');
+}
+
+function mostrarPendiente(){
+  document.getElementById('modalPendiente').classList.add('open');
+}
+function cerrarPendiente(){
+  document.getElementById('modalPendiente').classList.remove('open');
+}
+
+/* Tema claro/oscuro (persistente) */
+const saved = (function(){ try{ return localStorage.getItem('eag-theme'); }catch(e){ return null; } })() || 'dark';
+document.documentElement.dataset.theme = saved;
+document.getElementById('themeBtn').textContent = saved === 'dark' ? '☀' : '☾';
+document.getElementById('themeBtn').onclick = () => {
+  const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = next;
+  try{ localStorage.setItem('eag-theme', next); }catch(e){}
+  document.getElementById('themeBtn').textContent = next === 'dark' ? '☀' : '☾';
+};
+
+/* ============================================================================
+   PANEL DE PROMPTS — copiar con un clic (con respaldo si el portapapeles
+   está restringido dentro del iframe de Google Sites)
+   ============================================================================ */
+const PROMPTS = {
+  p1: 'Fallé la pregunta X del tema Y en el test de Física. Explícame el concepto clave, dame la fórmula y 2 ejemplos prácticos estilo ECOEMS.',
+  p2: 'En esta pregunta de [Materia], tema [Y], marqué la opción [B] y era incorrecta. Explícame por qué [B] está mal y por qué la opción correcta sí lo es, con un truco para no repetir el error.',
+  p3: 'Genera un mini-quiz de 5 preguntas de opción múltiple sobre [tema] de [Materia], nivel ECOEMS/COMIPEMS, con retroalimentación después de cada respuesta.'
+};
+
+function copiarPrompt(btn){
+  const texto = PROMPTS[btn.dataset.prompt] || '';
+  const marcarCopiado = () => {
+    const original = btn.textContent;
+    btn.textContent = '✔ Copiado';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1600);
+  };
+
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(texto).then(marcarCopiado).catch(() => copiarConTextarea(texto, marcarCopiado));
+  }else{
+    copiarConTextarea(texto, marcarCopiado);
+  }
+}
+
+function copiarConTextarea(texto, onDone){
+  const ta = document.createElement('textarea');
+  ta.value = texto;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  try{ document.execCommand('copy'); }catch(e){ /* último recurso: el alumno selecciona manualmente */ }
+  document.body.removeChild(ta);
+  if(onDone) onDone();
+}
+
+/* ============================================================================
+   BÚTECH — CHATBOT GUÍA (el osito panda)
+   ============================================================================
+   Importante: Bútech NO es una IA generativa conectada aquí. Es un flujo
+   guiado: ayuda al alumno a llegar a la fuente correcta (su NotebookLM ya
+   armado por materia) y, si necesita profundizar, a llevar su duda ya
+   redactada a una IA general (Gemini o Claude) en una pestaña nueva.
+   ============================================================================ */
+const NOTEBOOKLM_GENERICO = 'https://notebooklm.google.com';
+const LIGAS_NOTEBOOKLM = {
+  // 'matematicas': 'https://notebooklm.google.com/notebook/COLOCA-TU-ID',
+};
+
+let butechMateriaActual = '';
+
+function butechPoblarMaterias(){
+  const sel = document.getElementById('butechMateria');
+  MATERIAS.forEach(m => {
+    const opt = document.createElement('option');
+    opt.value = m.id;
+    opt.textContent = `${m.icon} ${m.nombre}`;
+    sel.appendChild(opt);
+  });
+}
+
+function butechNotebookLink(){
+  return LIGAS_NOTEBOOKLM[butechMateriaActual] || NOTEBOOKLM_GENERICO;
+}
+
+function butechAgregarMensaje(texto, tipo){
+  const body = document.getElementById('butechBody');
+  const div = document.createElement('div');
+  div.className = `bmsg ${tipo}`;
+  div.innerHTML = texto;
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+}
+
+function butechRenderQuick(){
+  const quick = document.getElementById('butechQuick');
+  quick.innerHTML = `
+    <span class="qchip" onclick="butechAbrirNotebook()">📓 Abrir mi NotebookLM</span>
+    <span class="qchip" onclick="butechAbrirIA('gemini')">✨ Preguntar a Gemini</span>
+    <span class="qchip" onclick="butechAbrirIA('claude')">🤖 Preguntar a Claude</span>
+  `;
+}
+
+function butechCambiarMateria(){
+  const sel = document.getElementById('butechMateria');
+  butechMateriaActual = sel.value;
+  const materia = MATERIAS.find(m => m.id === butechMateriaActual);
+  if(materia){
+    butechAgregarMensaje(`Perfecto, vamos con <b>${materia.nombre}</b>. Tu guía y esquema de temas están en tu NotebookLM de esa materia. Escribe tu duda abajo y te ayudo a mandarla al lugar correcto.`, 'bot');
+  }
+}
+
+function butechAbrirNotebook(){
+  window.open(butechNotebookLink(), '_blank', 'noopener');
+}
+
+function butechAbrirIA(destino){
+  const input = document.getElementById('butechInput');
+  const duda = (input.value || '').trim();
+  const materia = MATERIAS.find(m => m.id === butechMateriaActual);
+  const contexto = materia ? `Estoy repasando ${materia.nombre} para el examen ECOEMS. ` : 'Estoy repasando para el examen ECOEMS. ';
+  const prompt = duda ? contexto + 'Mi duda es: ' + duda : contexto + 'Ayúdame a repasar los temas clave.';
+  const url = destino === 'gemini'
+    ? `https://gemini.google.com/app?q=${encodeURIComponent(prompt)}`
+    : `https://claude.ai/new?q=${encodeURIComponent(prompt)}`;
+  window.open(url, '_blank', 'noopener');
+  butechAgregarMensaje(`Abrí ${destino === 'gemini' ? 'Gemini' : 'Claude'} en una pestaña nueva con tu duda ya redactada. Recuerda: primero confirma la respuesta contra tu guía en NotebookLM.`, 'bot');
+}
+
+function butechEnviar(){
+  const input = document.getElementById('butechInput');
+  const texto = input.value.trim();
+  if(!texto) return;
+  butechAgregarMensaje(texto, 'user');
+  input.value = '';
+
+  if(!butechMateriaActual){
+    butechAgregarMensaje('Antes de continuar, elige tu materia arriba 👆 así te mando al NotebookLM correcto.', 'bot');
+    return;
+  }
+
+  butechAgregarMensaje(`Anotado. Tienes dos caminos:
+    <ul>
+      <li><b>📓 NotebookLM</b> — ahí está tu guía exacta de esta materia, es tu fuente principal.</li>
+      <li><b>✨🤖 Gemini o Claude</b> — te llevo con tu duda ya escrita, útil si quieres una explicación adicional o ejemplos.</li>
+    </ul>
+    Usa los botones de abajo, o copia uno de los prompts listos de la tarjeta "Prompts listos para copiar".`, 'bot');
+}
+
+function openButech(){
+  document.getElementById('butechPanel').classList.add('open');
+  const body = document.getElementById('butechBody');
+  if(!body.dataset.iniciado){
+    body.dataset.iniciado = '1';
+    butechPoblarMaterias();
+    butechRenderQuick();
+    butechAgregarMensaje('¡Hola! Soy Bútech 🐼. Tu guía y tu material por materia ya están en NotebookLM — yo te ayudo a llegar a la pregunta correcta y, si hace falta, a llevarla a Gemini o Claude.', 'bot');
+    butechAgregarMensaje('Para empezar, elige tu materia arriba ☝️', 'bot');
+  }
+}
+
+function closeButech(){
+  document.getElementById('butechPanel').classList.remove('open');
+}
+</script>
 </body>
 </html>
